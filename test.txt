@@ -1,4 +1,0 @@
-git add .
-git commit -m "dsssdd"
-git push https://github.com/killian-halpin/WAD2-moviesapp.git
-hello
