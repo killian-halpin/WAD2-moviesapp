@@ -1,13 +1,12 @@
-import React from "react";
-import React, { useState, useEffect } from "react";  // Changed
+import React, { useState, useEffect } from "react";
 import Header from "../components/headerMovieList";
 import FilterCard from "../components/filterMoviesCard";
 import MovieList from "../components/movieList";
 import Grid from "@mui/material/Grid";
 
 const MovieListPage = (props) => {
-  const movies = props.movies;
-  const [movies, setMovies] = useState([]);
+  const initialMovies = props.movies;
+  const [movieList, setMovieList] = useState([]);
 
   useEffect(() => {
     fetch(
@@ -15,11 +14,10 @@ const MovieListPage = (props) => {
     )
       .then((res) => res.json())
       .then((json) => {
-        // console.log(json);
         return json.results;
       })
       .then((movies) => {
-        setMovies(movies);
+        setMovieList(movies);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -33,7 +31,7 @@ const MovieListPage = (props) => {
         <Grid key="find" item xs={12} sm={6} md={4} lg={3} xl={2}>
           <FilterCard />
         </Grid>
-        <MovieList movies={movies}></MovieList>
+        <MovieList movies={initialMovies}></MovieList>
       </Grid>
     </Grid>
   );

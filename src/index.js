@@ -2,7 +2,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Route, Navigate, Routes } from "react-router-dom";
 import HomePage from "./pages/homePage";
-import sample from './stpries/sampleData';
+import sample from './stories/sampleData';
 import MoviePage from "./pages/movieDetailsPage";
 
 const movies = [sample, sample, sample, sample, sample, sample, sample];

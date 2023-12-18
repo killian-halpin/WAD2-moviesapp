@@ -1,5 +1,4 @@
-import React from "react";
-import React, {useState, useEffect}  from "react";
+import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -10,57 +9,54 @@ import TextField from "@mui/material/TextField";
 import SearchIcon from "@mui/icons-material/Search";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-import img from '../../images/pexels-dziana-hasanbekava-5480827.jpg'
-const formControl = 
-  {
-    margin: 1,
-    minWidth: 220,
-    backgroundColor: "rgb(255, 255, 255)"
-  };
+import img from '../../images/pexels-dziana-hasanbekava-5480827.jpg';
+
+const formControl = {
+  margin: 1,
+  minWidth: 220,
+  backgroundColor: "rgb(255, 255, 255)"
+};
 
 export default function FilterMoviesCard(props) {
-  const [genres, setGenres] = useState([{ id: '0', name: "All" }])
+  const [genres, setGenres] = useState([{ id: '0', name: "All" }]);
 
-  const genres = [
-    {id: 1, name: "Animation"},
-    {id: 2, name: "Comedy"},
-    {id: 3, name: "Thriller"}
-  ]
   useEffect(() => {
     fetch(
       "https://api.themoviedb.org/3/genre/movie/list?api_key=" +
-        process.env.REACT_APP_TMDB_KEY + 
-              "&language=en-US"
+        process.env.REACT_APP_TMDB_KEY +
+        "&language=en-US"
     )
       .then(res => res.json())
       .then(json => {
-        // console.log(json.genres) 
-        return json.genres
+        return json.genres;
       })
       .then(apiGenres => {
-        setGenres([genres[0], ...apiGenres]);
+        setGenres([{ id: '0', name: "All" }, ...apiGenres]);
       });
       // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleChange = (e, type, value) => {
-    e.preventDefault()
-    // Completed later
+    e.preventDefault();
+    // Handle changes based on type and value
   };
+
   const handleTextChange = e => {
-    handleChange(e, "name", e.target.value)
-  }
+    handleChange(e, "name", e.target.value);
+  };
+
   const handleGenreChange = e => {
-    handleChange(e, "genre", e.target.value)
+    handleChange(e, "genre", e.target.value);
   };
 
   return (
-    <Card 
+    <Card
       sx={{
         maxWidth: 345,
         backgroundColor: "rgb(204, 204, 0)"
-      }} 
-      variant="outlined">
+      }}
+      variant="outlined"
+    >
       <CardContent>
         <Typography variant="h5" component="h1">
           <SearchIcon fontSize="large" />
@@ -84,21 +80,15 @@ export default function FilterMoviesCard(props) {
             value={props.genreFilter}
             onChange={handleGenreChange}
           >
-            {genres.map((genre) => {
-              return (
-                <MenuItem key={genre.id} value={genre.id}>
-                  {genre.name}
-                </MenuItem>
-              );
-            })}
+            {genres.map((genre) => (
+              <MenuItem key={genre.id} value={genre.id}>
+                {genre.name}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </CardContent>
-      <CardMedia
-        sx={{ height: 300 }}
-        image={img}
-        title="Filter"
-      />
+      <CardMedia sx={{ height: 300 }} image={img} title="Filter" />
       <CardContent>
         <Typography variant="h5" component="h1">
           <SearchIcon fontSize="large" />
