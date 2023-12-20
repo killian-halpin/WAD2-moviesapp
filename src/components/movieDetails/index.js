@@ -1,4 +1,3 @@
-import React from "react";
 import React, { useState} from "react";
 import Chip from "@mui/material/Chip";
 import Paper from "@mui/material/Paper";
@@ -22,9 +21,7 @@ const root = {
 };
 const chip = { margin: 0.5 };
 
-const MovieDetails = ( props) => {
-  const movie = props.movie
-const MovieDetails = ({ movie }) => {  // Don't miss this!
+const MovieDetails = ({ movie }) => {  
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   return (
@@ -76,27 +73,23 @@ const MovieDetails = ({ movie }) => {  // Don't miss this!
         ))}
       </Paper>
       <Fab
-     <Fab
-        color="secondary"
-        variant="extended"
-        onClick={() =>setDrawerOpen(true)}
-        sx={{
-            position: "fixed",
-            bottom: 2,
-            right: 2
-          position: 'fixed',
-          bottom: '1em',
-          right: '1em'
-        }}
-      >
-        <NavigationIcon />
-        Reviews
-      </Fab>
-      </>
-      <Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-        <MovieReviews movie={movie} />
-      </Drawer>
-    </>
+  color="secondary"
+  variant="extended"
+  onClick={() => setDrawerOpen(true)}
+  sx={{
+    position: "fixed",
+    bottom: 2,
+    right: 2,
+  }}
+>
+  <NavigationIcon />
+  Reviews
+</Fab>
+<Drawer anchor="top" open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+  <MovieReviews movie={movie} />
+</Drawer>
+</>
   );
 };
-export default MovieDetails ;
+
+export default MovieDetails;

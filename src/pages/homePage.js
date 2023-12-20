@@ -1,83 +1,35 @@
-import React, { useState, useEffect } from "react";
-import Header from "../components/headerMovieList";
-import FilterCard from "../components/filterMoviesCard";
-import MovieList from "../components/movieList";
-import Grid from "@mui/material/Grid";
-import PageTemplate from "../components/templateMovieListPage";
+import React from "react";
 import { getMovies } from "../api/tmdb-api";
-import { sx } from '@mui/system';
+import PageTemplate from '../components/templateMovieListPage';
+import { useQuery } from 'react-query';
+import Spinner from '../components/spinner';
+import AddToFavouritesIcon from '../components/cardIcons/addToFavourites'
 
-const MovieListPage = (props) => {
-  const [movies, setMovies] = useState([]);
-  const [nameFilter, setNameFilter] = useState("");
-  const [genreFilter, setGenreFilter] = useState("0");
-  const favourites = movies.filter((m) => m.favourite);
-  localStorage.setItem("favourites", JSON.stringify(favourites));
+const HomePage = (props) => {
 
-  const genreId = Number(genreFilter);
-
-  let displayedMovies = movies
-    .filter((m) => {
-      return m.title.toLowerCase().search(nameFilter.toLowerCase()) !== -1;
-    })
-    .filter((m) => {
-      return genreId > 0 ? m.genre_ids.includes(genreId) : true;
-    });
-
-  const handleChange = (type, value) => {
-    if (type === "name") setNameFilter(value);
-    else setGenreFilter(value);
-  };
-
-  const addToFavourites = (movieId) => {
-    const updatedMovies = movies.map((m) =>
-      m.id === movieId ? { ...m, favourite: true } : m
-    );
-    setMovies(updatedMovies);
-  };
-
-  useEffect(() => {
-    fetch(
-      `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.REACT_APP_TMDB_KEY}&language=en-US&include_adult=false&page=1`
-    )
-      .then((res) => res.json())
-      .then((json) => {
-        // console.log(json);
-        return json.results;
-      })
-      .then((movies) => {
-        setMovies(movies);
-      });
-    getMovies().then((movies) => {
-      setMovies(movies);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const {  data, error, isLoading, isError }  = useQuery('discover', getMovies)
+  if (isLoading) {
+    return <Spinner />
+  }
+  if (isError) {
+    return <h1>{error.message}</h1>
+  }  
+  const movies = data.results;
+  // Redundant, necessary to avoid app crashing.
+  const favourites = movies.filter(m => m.favourite)
+  localStorage.setItem('favourites', JSON.stringify(favourites))
+  const addToFavourites = (movieId) => true 
 
   return (
-    <div>
-      <Grid container sx={{ padding: "20px" }}>
-        <Grid item xs={12}>
-          <Header title={"Home Page"} />
-        </Grid>
-        <Grid item container spacing={5}>
-          <Grid key="find" item xs={12} sm={6} md={4} lg={3} xl={2}>
-            <FilterCard
-              onUserInput={handleChange}
-              titleFilter={nameFilter}
-              genreFilter={genreFilter}
-            />
-          </Grid>
-          <MovieList movies={displayedMovies} />
-        </Grid>
-      </Grid>
-      <PageTemplate
-        title="Discover Movies"
-        movies={movies}
-        selectFavourite={addToFavourites}
-      />
-    </div>
+    <PageTemplate
+    title="Discover Movies"
+    movies={movies}
+    selectFavourite={addToFavourites}
+    action={(movie) => {
+      return <AddToFavouritesIcon movie={movie} />
+    }}
+  />
+  
   );
 };
-
-export default MovieListPage;
+export default HomePage;

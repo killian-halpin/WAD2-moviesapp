@@ -33,12 +33,12 @@ export default function FilterMoviesCard(props) {
       .then(apiGenres => {
         setGenres([{ id: '0', name: "All" }, ...apiGenres]);
       });
-      // eslint-disable-next-line react-hooks/exhaustive-deps
+      
   }, []);
 
   const handleChange = (e, type, value) => {
     e.preventDefault();
-    // Handle changes based on type and value
+    
   };
 
   const handleTextChange = e => {
