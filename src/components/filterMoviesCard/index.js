@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
@@ -23,13 +23,18 @@ const formControl = {
 export default function FilterMoviesCard(props) {
   const { data, error, isLoading, isError } = useQuery("genres", getGenres);
 
-  useEffect(() => {
-    if (data) {
-      const genres = [...data.genres];
-      genres.unshift({ id: "0", name: "All" });
-      props.setGenres(genres);
-    }
-  }, [data, props]);
+  if (isLoading) {
+    return <Spinner />;
+  }
+
+  if (isError) {
+    return <h1>{error.message}</h1>;
+  }
+  const genres = data.genres;
+  if (genres[0].name !== "All"){
+    genres.unshift({ id: "0", name: "All" });
+  }
+
 
   const handleChange = (e, type, value) => {
     e.preventDefault();
@@ -44,21 +49,11 @@ export default function FilterMoviesCard(props) {
     handleChange(e, "genre", e.target.value);
   };
 
-  if (isLoading) {
-    return <Spinner />;
-  }
-
-  if (isError) {
-    return <h1>{error.message}</h1>;
-  }
-
-  const genres = data.genres;
-
   return (
     <Card
       sx={{
         maxWidth: 345,
-        backgroundColor: "rgb(204, 204, 0)",
+        backgroundColor: "rgb(209, 180, 0)",
       }}
       variant="outlined"
     >

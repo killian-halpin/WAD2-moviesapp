@@ -17,7 +17,7 @@ const ReviewForm = ({ movie }) => {
     author: "",
     review: "",
     agree: false,
-    rating: "3",
+    rating: "2",
   };
   const {
     control,

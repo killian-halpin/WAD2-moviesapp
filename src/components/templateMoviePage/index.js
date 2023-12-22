@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import MovieHeader from "../headerMovie";
 import Grid from "@mui/material/Grid";
 import ImageList from "@mui/material/ImageList";
@@ -8,25 +8,19 @@ import { useQuery } from "react-query";
 import Spinner from '../spinner';
 
 const TemplateMoviePage = ({ movie, children }) => {
-  const [images, setImages] = useState([]);
   const { data, error, isLoading, isError } = useQuery(
     ["images", { id: movie.id }],
     getMovieImages
   );
 
-  useEffect(() => {
-    if (!isLoading && !isError) {
-      setImages(data.posters);
-    }
-  }, [data, isLoading, isError]);
-
-  if (isLoading) {
+   if (isLoading) {
     return <Spinner />;
   }
 
   if (isError) {
     return <h1>{error.message}</h1>;
   }
+  const images = data.posters
 
   return (
     <>
@@ -40,7 +34,8 @@ const TemplateMoviePage = ({ movie, children }) => {
               justifyContent: "space-around",
             }}
           >
-            <ImageList cols={1}>
+            <ImageList 
+              cols={1}>
               {images.map((image) => (
                 <ImageListItem key={image.file_path} cols={1}>
                   <img

@@ -1,35 +1,26 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from 'react-router-dom';
 import MovieDetails from "../components/movieDetails/";
 import PageTemplate from "../components/templateMoviePage";
-import useMovie from "../hooks/useMovie";
-import { getMovie } from '../api/tmdb-api'
-import { useQuery } from "react-query";
-import Spinner from '../components/spinner'
+import { getMovie } from "../api/tmdb-api";
 
-const MovieDetailsPage = (props) => {
-  const { id } = useParams();
-  const [movie] = useMovie(id);
+const MoviePage = () => {
+  const { id } = useParams(); 
 
-  const { data, error, isLoading, isError } = useQuery(
-    ["movie", { id: id }],
-    getMovie
-  );
+  const [movie, setMovie] = useState(null);
 
-  if (isLoading) {
-    return <Spinner />;
-  }
-
-  if (isError) {
-    return <h1>{error.message}</h1>;
-  }
+  useEffect(() => {
+    getMovie(id).then((movie) => {
+      setMovie(movie);
+    });
+  }, [id]);
 
   return (
     <>
       {movie ? (
         <>
-          <PageTemplate movie={data}>
-            <MovieDetails movie={data} />
+          <PageTemplate movie={movie}>
+            <MovieDetails movie={movie} />
           </PageTemplate>
         </>
       ) : (
@@ -39,4 +30,4 @@ const MovieDetailsPage = (props) => {
   );
 };
 
-export default MovieDetailsPage;
+export default MoviePage;

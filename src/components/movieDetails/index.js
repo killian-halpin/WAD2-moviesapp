@@ -7,7 +7,6 @@ import StarRate from "@mui/icons-material/StarRate";
 import NavigationIcon from "@mui/icons-material/Navigation";
 import Fab from "@mui/material/Fab";
 import Typography from "@mui/material/Typography";
-
 import Drawer from "@mui/material/Drawer";
 import MovieReviews from "../movieReview"
 

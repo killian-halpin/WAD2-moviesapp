@@ -27,12 +27,11 @@ const FavouriteMoviesPage = () => {
     q.data.genre_ids = q.data.genres.map(g => g.id)
     return q.data
   });
-  const toDo = () => true;
+  //const toDo = () => true;
   return (
     <PageTemplate
       title="Favourite Movies"
       movies={movies}
-      selectFavourite={toDo}
       action={(movie) => {
         return (
           <>

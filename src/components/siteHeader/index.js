@@ -24,7 +24,8 @@ const SiteHeader = ({ history }) => {
     { label: "Upcoming Movies", path: "/movies/upcoming" },
     { label: "Must Watch List", path: "/movies/mustwatch" },
     { label: "Popular Movies", path: "/movies/popular" },
-    { label: "Option ", path: "/" },
+    { label: "Popular Actors", path: "/actors" },
+    { label: "Favourite Actors", path: "/actors/favourites" }
   ];
 
   const handleMenuSelect = (pageURL) => {
@@ -38,10 +39,7 @@ const SiteHeader = ({ history }) => {
       <AppBar position="fixed" color="secondary">
         <Toolbar>
           <Typography variant="h4" sx={{ flexGrow: 1 }}>
-            TMDB Client
-          </Typography>
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            Everything you want to know about movies in one place!
+            Killian Halpin Movies
           </Typography>
             {isMobile ? (
               <>

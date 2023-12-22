@@ -16,9 +16,10 @@ import { Link } from "react-router-dom";
 import Avatar from '@mui/material/Avatar';
 import { MoviesContext } from "../../contexts/moviesContext";
 
+
 export default function MovieCard({ movie, action }) {
   const { favourites, mustWatchMovies } = useContext(MoviesContext);
-
+ 
    if (favourites.find((id) => id === movie.id)) {
      movie.favourite = true;
    } else {
@@ -30,26 +31,26 @@ export default function MovieCard({ movie, action }) {
   } else {
     movie.mustWatch = false
   }
+
   return (
     <Card sx={{ maxWidth: 345 }}>
-    <CardHeader
-  avatar={
-    movie.favourite ? (
-      <Avatar sx={{ backgroundColor: 'red' }}>
-        <FavoriteIcon />
-      </Avatar>
-    ) : movie.mustWatch ? (  // Remove the extra closing parenthesis here
-      <Avatar sx={{ backgroundColor: 'red' }}>
-        <PlaylistAddIcon />
-      </Avatar>
-    ) : null
-  }
-  title={
-    <Typography variant="h5" component="p">
-      {movie.title}{" "}
-    </Typography>
-  }
-/>
+      <CardHeader
+        avatar={
+          movie.favourite ? (
+            <Avatar sx={{ backgroundColor: 'red' }}>
+              <FavoriteIcon />
+            </Avatar>
+          ) : movie.mustWatch ?
+            <Avatar sx={{ backgroundColor: 'red' }}>
+              <PlaylistAddIcon />
+            </Avatar> : null
+        }
+        title={
+          <Typography variant="h5" component="p">
+            {movie.title}{" "}
+          </Typography>
+        }
+      />
       <CardMedia
         sx={{ height: 500 }}
         image={
@@ -74,8 +75,7 @@ export default function MovieCard({ movie, action }) {
           </Grid>
         </Grid>
       </CardContent>
-      <CardActions disableSpacing>
-    {action(movie)}
+      <CardActions>
     <Link to={`/movies/${movie.id}`}>
       <Button variant="outlined" size="medium" color="primary">
         More Info ...
