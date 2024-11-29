@@ -15,6 +15,8 @@ import TVShowPage from "./pages/tvShowDetailsPage";
 import TVShowsPage from "./pages/tvShowsPage";
 import FavouriteTVShowsPage from "./pages/favouriteTVShowsPage"; 
 import AddTVShowReviewPage from './pages/addTVShowReviewPage';
+import LoginPage from "./pages/loginPage";
+import SignUpPage from "./pages/signUpPage";
 //Review Pages
 import MovieReviewPage from "./pages/movieReviewPage";
 import AddMovieReviewPage from './pages/addMovieReviewPage';
@@ -23,7 +25,9 @@ import TVShowReviewPage from "./pages/tvShowReviewPage";
 import SiteHeader from './components/siteHeader'
 import { QueryClientProvider, QueryClient } from "react-query";
 import { ReactQueryDevtools } from 'react-query/devtools';
+import ProtectedRoutes from "./protectedRoutes";
 //Context Pages
+import AuthContextProvider from "./contexts/authContext";
 import MoviesContextProvider from "./contexts/moviesContext";
 import ActorsContextProvider from "./contexts/actorsContext";
 import TVShowsContextProvider from "./contexts/tvShowsContext";
@@ -42,11 +46,15 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
     <BrowserRouter>
+    <AuthContextProvider>
       <SiteHeader />
       <ActorsContextProvider>
         <MoviesContextProvider>
         <TVShowsContextProvider>
             <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={ <SignUpPage /> } />
+        <Route element={<ProtectedRoutes />}>
         <Route path="/reviews/:id" element={ <MovieReviewPage /> } />
         <Route exact path="/movies/favourites" element={<FavouriteMoviesPage />} />
         <Route path="/movies/upcoming" element={<UpComingMoviesPage />} />
@@ -65,10 +73,13 @@ const App = () => {
         <Route path="/reviews/:id" element={ <TVShowReviewPage />} />
         <Route path="/" element={<HomePage />} />
         <Route path="*" element={ <Navigate to="/" /> } />
+        </Route>
+        <Route path="*" element={<Navigate to="/" />} />
         </Routes>
           </TVShowsContextProvider>
          </MoviesContextProvider>
         </ActorsContextProvider>
+        </AuthContextProvider>
       </BrowserRouter>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
